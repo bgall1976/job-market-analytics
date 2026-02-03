@@ -79,7 +79,7 @@ flowchart TB
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 job-market-analytics/
@@ -119,7 +119,7 @@ job-market-analytics/
 
 ## 🚀 Quick Start
 
-> **📖 New to this project?** Follow the complete **[Getting Started Guide](./GETTING_STARTED.md)** for detailed step-by-step instructions.
+> **New to this project?** Follow the complete **[Getting Started Guide](./GETTING_STARTED.md)** for detailed step-by-step instructions.
 
 ### Prerequisites
 
@@ -181,7 +181,7 @@ docker-compose up -d
 
 ---
 
-## 🎯 Key Features
+## Key Features
 
 | Feature | Implementation | Free Tier Limit |
 |---------|---------------|-----------------|
@@ -197,7 +197,7 @@ docker-compose up -d
 
 ---
 
-## 📊 Data Model
+## Data Model
 
 ### Bronze Layer (Raw)
 - `raw_job_postings` - Unmodified API responses
@@ -257,7 +257,7 @@ erDiagram
 
 ---
 
-## 📈 Sample Insights
+## Sample Insights
 
 The pipeline generates actionable insights including:
 
@@ -269,7 +269,7 @@ The pipeline generates actionable insights including:
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 | Layer | Technology | Why This Choice |
 |-------|------------|-----------------|
@@ -284,7 +284,7 @@ The pipeline generates actionable insights including:
 
 ---
 
-## 📚 Step-by-Step Guides
+## Step-by-Step Guides
 
 Each component has detailed documentation:
 
@@ -298,7 +298,7 @@ Each component has detailed documentation:
 
 ---
 
-## 🧪 Testing
+## Testing
 
 ```bash
 # Run unit tests
@@ -313,19 +313,19 @@ cd 04-transformation && dbt test
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions welcome! Please read [CONTRIBUTING.md](./docs/CONTRIBUTING.md) first.
 
 ---
 
-## 📄 License
+## License
 
 MIT License - see [LICENSE](./LICENSE) for details.
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - [Airbyte](https://airbyte.com/) for open-source data integration
 - [dbt Labs](https://www.getdbt.com/) for the transformation framework
