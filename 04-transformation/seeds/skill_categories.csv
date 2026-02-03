@@ -1,0 +1,79 @@
+skill_name,skill_category
+python,Programming Language
+sql,Programming Language
+java,Programming Language
+scala,Programming Language
+go,Programming Language
+rust,Programming Language
+javascript,Programming Language
+typescript,Programming Language
+r,Programming Language
+julia,Programming Language
+bash,Programming Language
+spark,Big Data
+pyspark,Big Data
+hadoop,Big Data
+hive,Big Data
+presto,Big Data
+trino,Big Data
+flink,Big Data
+kafka,Streaming
+kinesis,Streaming
+pubsub,Streaming
+rabbitmq,Streaming
+aws,Cloud Platform
+azure,Cloud Platform
+gcp,Cloud Platform
+google cloud,Cloud Platform
+postgresql,Database
+postgres,Database
+mysql,Database
+mongodb,Database
+redis,Database
+elasticsearch,Database
+cassandra,Database
+dynamodb,Database
+bigquery,Database
+redshift,Database
+snowflake,Database
+docker,DevOps
+kubernetes,DevOps
+k8s,DevOps
+terraform,DevOps
+pulumi,DevOps
+airflow,Orchestration
+dagster,Orchestration
+prefect,Orchestration
+dbt,Data Engineering Tool
+fivetran,Data Engineering Tool
+airbyte,Data Engineering Tool
+pandas,Data Processing
+numpy,Data Processing
+polars,Data Processing
+dask,Data Processing
+ray,Data Processing
+tableau,Visualization
+power bi,Visualization
+looker,Visualization
+metabase,Visualization
+superset,Visualization
+machine learning,ML/AI
+deep learning,ML/AI
+tensorflow,ML/AI
+pytorch,ML/AI
+scikit-learn,ML/AI
+mlflow,ML/AI
+kubeflow,ML/AI
+sagemaker,ML/AI
+etl,Concept
+elt,Concept
+data warehouse,Concept
+data lake,Concept
+lakehouse,Concept
+data modeling,Concept
+dimensional modeling,Concept
+star schema,Concept
+ci/cd,DevOps
+git,DevOps
+agile,Methodology
+scrum,Methodology

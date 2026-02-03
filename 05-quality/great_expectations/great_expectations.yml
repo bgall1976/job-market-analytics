@@ -1,0 +1,108 @@
+# Great Expectations Configuration
+# https://docs.greatexpectations.io/docs/reference/
+
+config_version: 3.0
+config_variables_file_path: uncommitted/config_variables.yml
+
+# ============================================================================
+# PLUGINS
+# ============================================================================
+plugins_directory: plugins/
+
+# ============================================================================
+# DATA SOURCES
+# ============================================================================
+fluent_datasources:
+  # Local files for development
+  local_files:
+    type: pandas_filesystem
+    assets:
+      bronze_jobs:
+        type: csv
+        batching_regex: ".*\\.jsonl$"
+      silver_jobs:
+        type: parquet
+        batching_regex: ".*\\.parquet$"
+    base_directory: ../data/
+
+  # S3 for production
+  s3_bronze:
+    type: pandas_s3
+    bucket: ${BRONZE_BUCKET}
+    assets:
+      raw_job_postings:
+        type: json
+        batching_regex: job_postings/.*\\.jsonl$
+
+  s3_silver:
+    type: pandas_s3  
+    bucket: ${SILVER_BUCKET}
+    assets:
+      jobs_cleaned:
+        type: parquet
+        batching_regex: jobs_cleaned/.*\\.parquet$
+
+  s3_gold:
+    type: pandas_s3
+    bucket: ${GOLD_BUCKET}
+    assets:
+      fact_job_postings:
+        type: parquet
+        batching_regex: fact_job_postings/.*\\.parquet$
+
+# ============================================================================
+# STORES
+# ============================================================================
+stores:
+  expectations_store:
+    class_name: ExpectationsStore
+    store_backend:
+      class_name: TupleFilesystemStoreBackend
+      base_directory: expectations/
+
+  validations_store:
+    class_name: ValidationsStore
+    store_backend:
+      class_name: TupleFilesystemStoreBackend
+      base_directory: uncommitted/validations/
+
+  checkpoint_store:
+    class_name: CheckpointStore
+    store_backend:
+      class_name: TupleFilesystemStoreBackend
+      base_directory: checkpoints/
+
+  evaluation_parameter_store:
+    class_name: EvaluationParameterStore
+
+expectations_store_name: expectations_store
+validations_store_name: validations_store
+checkpoint_store_name: checkpoint_store
+evaluation_parameter_store_name: evaluation_parameter_store
+
+# ============================================================================
+# DATA DOCS
+# ============================================================================
+data_docs_sites:
+  local_site:
+    class_name: SiteBuilder
+    show_how_to_buttons: true
+    store_backend:
+      class_name: TupleFilesystemStoreBackend
+      base_directory: uncommitted/data_docs/local_site/
+    site_index_builder:
+      class_name: DefaultSiteIndexBuilder
+
+  # Optional: S3 hosted docs
+  # s3_site:
+  #   class_name: SiteBuilder
+  #   store_backend:
+  #     class_name: TupleS3StoreBackend
+  #     bucket: ${DOCS_BUCKET}
+  #     prefix: data_docs/
+
+# ============================================================================
+# ANONYMOUS USAGE STATISTICS
+# ============================================================================
+anonymous_usage_statistics:
+  enabled: false

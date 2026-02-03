@@ -1,0 +1,60 @@
+name: 'job_analytics'
+version: '1.0.0'
+config-version: 2
+
+profile: 'job_analytics'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+vars:
+  # Date range for incremental processing
+  start_date: '2024-01-01'
+  end_date: '{{ run_started_at.strftime("%Y-%m-%d") }}'
+
+models:
+  job_analytics:
+    # Staging layer - lightweight views
+    staging:
+      +materialized: view
+      +schema: staging
+      +tags: ['staging']
+    
+    # Mart layer - materialized tables
+    marts:
+      +materialized: table
+      +schema: marts
+      +tags: ['marts']
+      
+      # Aggregation models
+      aggregates:
+        +materialized: table
+        +schema: aggregates
+        +tags: ['aggregates']
+
+seeds:
+  job_analytics:
+    +schema: seeds
+    skill_categories:
+      +column_types:
+        skill_name: varchar(100)
+        skill_category: varchar(50)
+    location_mapping:
+      +column_types:
+        raw_location: varchar(200)
+        city: varchar(100)
+        state: varchar(50)
+        country: varchar(50)
+
+tests:
+  job_analytics:
+    +severity: warn

@@ -1,0 +1,126 @@
+# Airbyte Local Deployment
+# Simplified setup for free tier usage
+# Full docs: https://docs.airbyte.com/deploying-airbyte/local-deployment
+
+version: "3.8"
+
+services:
+  # Init container to set up volumes
+  init:
+    image: airbyte/init:${VERSION:-0.50.33}
+    logging:
+      driver: none
+    container_name: init
+    command: /bin/sh -c "./scripts/create_mount_directories.sh /local_parent ${HACK_LOCAL_ROOT_PARENT:-/tmp} ${LOCAL_ROOT:-/tmp/airbyte_local}"
+    environment:
+      - LOCAL_ROOT=${LOCAL_ROOT:-/tmp/airbyte_local}
+      - HACK_LOCAL_ROOT_PARENT=${HACK_LOCAL_ROOT_PARENT:-/tmp}
+    volumes:
+      - ${HACK_LOCAL_ROOT_PARENT:-/tmp}:/local_parent
+
+  # Database for Airbyte
+  db:
+    image: airbyte/db:${VERSION:-0.50.33}
+    logging:
+      driver: none
+    container_name: airbyte-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=airbyte
+    volumes:
+      - db:/var/lib/postgresql/data
+
+  # Airbyte Server
+  server:
+    image: airbyte/server:${VERSION:-0.50.33}
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    container_name: airbyte-server
+    restart: unless-stopped
+    environment:
+      - AIRBYTE_VERSION=${VERSION:-0.50.33}
+      - CONFIG_ROOT=/data
+      - DATABASE_USER=docker
+      - DATABASE_PASSWORD=docker
+      - DATABASE_URL=jdbc:postgresql://db:5432/airbyte
+      - TRACKING_STRATEGY=logging
+      - WORKER_ENVIRONMENT=docker
+      - WORKSPACE_ROOT=/tmp/workspace
+      - LOG_LEVEL=INFO
+    ports:
+      - "8001:8001"
+    volumes:
+      - workspace:/tmp/workspace
+      - data:/data
+      - ${LOCAL_ROOT:-/tmp/airbyte_local}:/local
+    depends_on:
+      - db
+
+  # Airbyte Worker
+  worker:
+    image: airbyte/worker:${VERSION:-0.50.33}
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    container_name: airbyte-worker
+    restart: unless-stopped
+    environment:
+      - AIRBYTE_VERSION=${VERSION:-0.50.33}
+      - CONFIG_ROOT=/data
+      - DATABASE_USER=docker
+      - DATABASE_PASSWORD=docker
+      - DATABASE_URL=jdbc:postgresql://db:5432/airbyte
+      - LOG_LEVEL=INFO
+      - WORKSPACE_ROOT=/tmp/workspace
+      - LOCAL_ROOT=/local
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - workspace:/tmp/workspace
+      - data:/data
+      - ${LOCAL_ROOT:-/tmp/airbyte_local}:/local
+    depends_on:
+      - db
+
+  # Airbyte Web UI
+  webapp:
+    image: airbyte/webapp:${VERSION:-0.50.33}
+    logging:
+      driver: none
+    container_name: airbyte-webapp
+    restart: unless-stopped
+    environment:
+      - AIRBYTE_VERSION=${VERSION:-0.50.33}
+      - API_URL=/api/v1/
+      - INTERNAL_API_HOST=server:8001
+    ports:
+      - "8000:80"
+    depends_on:
+      - server
+
+  # Temporal for workflow orchestration
+  temporal:
+    image: airbyte/temporal:${VERSION:-0.50.33}
+    logging:
+      driver: none
+    container_name: airbyte-temporal
+    restart: unless-stopped
+    environment:
+      - DB=postgresql
+      - DB_PORT=5432
+      - POSTGRES_USER=docker
+      - POSTGRES_PWD=docker
+      - POSTGRES_SEEDS=db
+    depends_on:
+      - db
+
+volumes:
+  workspace:
+  data:
+  db:

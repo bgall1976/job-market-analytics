@@ -1,0 +1,77 @@
+# Company Career Page Configurations
+# Used by job_scraper.py to scrape job listings
+
+rapidapi:
+  enabled: true
+  api_key: ${RAPIDAPI_KEY}  # Set via environment variable
+  queries:
+    - "data engineer"
+    - "data engineering"
+    - "analytics engineer"
+    - "data platform engineer"
+    - "machine learning engineer"
+    - "MLOps engineer"
+
+greenhouse:
+  enabled: true
+  companies:
+    # AI/ML Companies
+    - anthropic
+    - openai
+    - cohere
+    - huggingface
+
+    # Data Platforms
+    - databricks
+    - snowflake
+    - confluent
+    - dbt-labs
+
+    # Tech Giants
+    - stripe
+    - airbnb
+    - square
+    - plaid
+
+    # Other Tech
+    - figma
+    - notion
+    - linear
+    - vercel
+
+lever:
+  enabled: true
+  companies:
+    - netflix
+    - spotify
+    - hashicorp
+    - datadog
+    - mongodb
+
+# Custom scraper configurations for specific career pages
+custom:
+  enabled: false
+  sites:
+    - name: example_company
+      careers_url: https://example.com/careers
+      job_list_selector: ".job-listing"
+      pagination:
+        type: "url_param"
+        param: "page"
+        max_pages: 5
+      fields:
+        title:
+          selector: ".job-title"
+          attribute: "text"
+        location:
+          selector: ".job-location"
+          attribute: "text"
+        url:
+          selector: ".job-title a"
+          attribute: "href"
+        description:
+          selector: ".job-description"
+          attribute: "text"
+        department:
+          selector: ".job-department"
+          attribute: "text"

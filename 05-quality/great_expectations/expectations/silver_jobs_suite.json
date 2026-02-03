@@ -1,0 +1,176 @@
+{
+  "expectation_suite_name": "silver_jobs_suite",
+  "ge_cloud_id": null,
+  "meta": {
+    "great_expectations_version": "0.18.0",
+    "created_at": "2024-01-01T00:00:00Z",
+    "created_by": "job_analytics_pipeline"
+  },
+  "expectations": [
+    {
+      "expectation_type": "expect_table_row_count_to_be_between",
+      "kwargs": {
+        "min_value": 1,
+        "max_value": null
+      },
+      "meta": {
+        "notes": "Table should not be empty"
+      }
+    },
+    {
+      "expectation_type": "expect_column_to_exist",
+      "kwargs": {
+        "column": "job_id"
+      }
+    },
+    {
+      "expectation_type": "expect_column_to_exist",
+      "kwargs": {
+        "column": "title"
+      }
+    },
+    {
+      "expectation_type": "expect_column_to_exist",
+      "kwargs": {
+        "column": "company"
+      }
+    },
+    {
+      "expectation_type": "expect_column_to_exist",
+      "kwargs": {
+        "column": "skills"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_unique",
+      "kwargs": {
+        "column": "job_id"
+      },
+      "meta": {
+        "severity": "critical",
+        "notes": "job_id is the primary key"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "job_id"
+      },
+      "meta": {
+        "severity": "critical"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "title"
+      },
+      "meta": {
+        "severity": "critical"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "company"
+      },
+      "meta": {
+        "severity": "critical"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "source",
+        "mostly": 1.0
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_in_set",
+      "kwargs": {
+        "column": "source",
+        "value_set": ["rapidapi", "greenhouse", "lever", "airbyte", "sheets"]
+      },
+      "meta": {
+        "notes": "Valid data sources"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "salary_min",
+        "min_value": 20000,
+        "max_value": 500000,
+        "mostly": 0.95
+      },
+      "meta": {
+        "severity": "warning",
+        "notes": "Reasonable salary range, allow 5% outliers"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "salary_max",
+        "min_value": 20000,
+        "max_value": 1000000,
+        "mostly": 0.95
+      },
+      "meta": {
+        "severity": "warning"
+      }
+    },
+    {
+      "expectation_type": "expect_column_pair_values_a_to_be_greater_than_b",
+      "kwargs": {
+        "column_A": "salary_max",
+        "column_B": "salary_min",
+        "or_equal": true,
+        "mostly": 0.99
+      },
+      "meta": {
+        "notes": "Max salary should be >= min salary"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "skill_count",
+        "min_value": 0,
+        "max_value": 50,
+        "mostly": 1.0
+      },
+      "meta": {
+        "notes": "Reasonable number of skills"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_of_type",
+      "kwargs": {
+        "column": "is_remote",
+        "type_": "BOOLEAN"
+      }
+    },
+    {
+      "expectation_type": "expect_column_value_lengths_to_be_between",
+      "kwargs": {
+        "column": "title",
+        "min_value": 3,
+        "max_value": 200,
+        "mostly": 0.99
+      },
+      "meta": {
+        "notes": "Job titles should be reasonable length"
+      }
+    },
+    {
+      "expectation_type": "expect_column_value_lengths_to_be_between",
+      "kwargs": {
+        "column": "company",
+        "min_value": 1,
+        "max_value": 200,
+        "mostly": 0.99
+      }
+    }
+  ]
+}
