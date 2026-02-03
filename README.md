@@ -1,4 +1,4 @@
-# 📊 Job Market Analytics Pipeline
+# Job Market Analytics Pipeline
 
 A complete, production-ready data engineering portfolio project demonstrating the modern data stack using **free-tier services only**.
 
@@ -11,7 +11,7 @@ Track data engineering job postings, salaries, and skill trends across multiple 
 
 ---
 
-## 🏗️ Architecture Overview
+## Architecture Overview
 
 ```mermaid
 flowchart TB
